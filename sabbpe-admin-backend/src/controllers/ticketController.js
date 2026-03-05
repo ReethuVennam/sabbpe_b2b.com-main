@@ -66,8 +66,8 @@ export const createNewTicket = async (req, res) => {
 
 export const createMerchantTicket = async (req, res) => {
   try {
-    const { merchant_id,module, title, description } = req.body;
-
+    //const { merchant_id,module, title, description } = req.body;
+const { merchant_id, title, description } = req.body;
     if (!merchant_id || !title || !description) {
       return res.status(400).json({
         message: "merchant_id, title and description required",
@@ -80,8 +80,9 @@ export const createMerchantTicket = async (req, res) => {
       .insert([
         {
          // module: "merchant_onboarding",
-         module,
-         title,
+        // module,
+        module: "merchant_onboarding", 
+        title,
           description,
           priority: "medium",
           status: "open",
@@ -816,7 +817,7 @@ export const getAssignedKYCForSupport = async (req, res) => {
     // 1️⃣ Get assigned onboarding tickets
     const { data: tickets, error: ticketError } = await supabase
       .from("tickets")
-      .select("created_by")
+      .select("id, created_by")
       .eq("module", "merchant_onboarding")
       .eq("assigned_to", supportId);
 
@@ -825,9 +826,9 @@ export const getAssignedKYCForSupport = async (req, res) => {
     if (!tickets || tickets.length === 0) {
       return res.json([]);
     }
-
+const merchantIds = [...new Set(tickets.map((t) => t.created_by))];
     // 2️⃣ Extract merchant IDs
-    const merchantIds = tickets.map((t) => t.created_by);
+    //const merchantIds = tickets.map((t) => t.created_by);
 
     // 3️⃣ Fetch merchant profiles
     const { data: merchants, error: merchantError } = await supabase

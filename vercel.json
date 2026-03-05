@@ -1,0 +1,9 @@
+{
+  "buildCommand": "cd sabbpeapp-main && npm run build",
+  "outputDirectory": "sabbpeapp-main/dist",
+  "devCommand": "cd sabbpeapp-main && npm run dev",
+  "installCommand": "npm install --legacy-peer-deps",
+  "env": {
+    "NODE_ENV": "production"
+  }
+}
